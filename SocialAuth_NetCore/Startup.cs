@@ -43,7 +43,8 @@ namespace SocialAuth_NetCore
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAuthentication()
-                    .AddGoogle(o => {
+                    .AddGoogle(o =>
+                    {
                         o.ClientId = Configuration["Authentication:Google:ClientId"];
                         o.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                         o.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
@@ -54,6 +55,11 @@ namespace SocialAuth_NetCore
                         o.ClaimActions.MapJsonKey(ClaimTypes.Surname, "family_name");
                         o.ClaimActions.MapJsonKey("urn:google:profile", "link");
                         o.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                    })
+                    .AddFacebook(o =>
+                    {
+                        o.ClientId = Configuration["Authentication:Facebook:AppId"];
+                        o.ClientSecret = Configuration["Authentication:Facebook:AppSecret"];
                     });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
